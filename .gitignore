@@ -1,0 +1,4 @@
+.data
+production.env
+dist*
+node_modules

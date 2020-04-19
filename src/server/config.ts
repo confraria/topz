@@ -1,0 +1,40 @@
+import dotenv from "dotenv";
+
+dotenv.config();
+
+const {
+	S3_ACCESS_KEY_ID,
+	S3_BUCKET,
+	S3_URL,
+	S3_REGION,
+	S3_SECRET_ACCESS_KEY,
+	DB_HOST,
+	DB_PASS,
+	DB_PORT,
+	DB_PROTOCOL,
+	DB_USER,
+	DOMAIN,
+	JWT_EXPIRES,
+	JWT_SECRET,
+	NODE_ENV,
+} = process.env;
+
+const SERVER_PORT = parseInt(process.env.SERVER_PORT, 10);
+
+export {
+	S3_ACCESS_KEY_ID,
+	S3_BUCKET,
+	S3_URL,
+	S3_REGION,
+	S3_SECRET_ACCESS_KEY,
+	DB_HOST,
+	DB_PASS,
+	DB_PORT,
+	DB_PROTOCOL,
+	DB_USER,
+	DOMAIN,
+	JWT_EXPIRES,
+	JWT_SECRET,
+	NODE_ENV,
+	SERVER_PORT,
+};

@@ -1,0 +1,16 @@
+{
+	"compilerOptions": {
+		"target": "ES2019",
+		"module": "ES2015",
+		"allowJs": true,
+		"checkJs": true,
+		"noImplicitAny": false,
+		"moduleResolution": "node",
+		"esModuleInterop": true,
+		"lib": ["DOM", "ES2019"],
+		"jsx": "react",
+		"jsxFactory": "h",
+		"sourceMap": true
+	},
+	"include": ["src"]
+}

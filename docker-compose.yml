@@ -1,0 +1,42 @@
+version: "3"
+services:
+  app:
+    build: .
+    ports:
+      - 3000:$SERVER_PORT
+    volumes:
+      - ./dist/server:/home/node/code
+      - /home/node/code/node_modules
+    depends_on:
+      - s3
+      - db
+    env_file:
+      - ./.env
+    command: nodemon index.js
+  nginx:
+    build: ./nginx
+    ports:
+      - 8080:80
+    volumes:
+      - ./dist/client:/var/local/app
+    depends_on:
+      - app
+  db:
+    image: couchdb:3
+    volumes:
+      - ./.data/couch:/opt/couchdb/data
+    environment:
+      COUCHDB_USER: ${DB_USER}
+      COUCHDB_PASSWORD: ${DB_PASS}
+    ports:
+      - 5984:5984
+  s3:
+    image: minio/minio
+    volumes:
+      - ./.data/s3:/data
+    command: server /data
+    environment:
+      MINIO_ACCESS_KEY: ${S3_ACCESS_KEY_ID}
+      MINIO_SECRET_KEY: ${S3_SECRET_ACCESS_KEY}
+    ports:
+      - 9000:9000

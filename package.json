@@ -1,0 +1,62 @@
+{
+	"name": "topz2",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"start": "rollup -c -w",
+		"server:watch": "tsc -p src/server --outDir dist/server -w",
+		"couch:start": "docker run -p 5984:5984 -it -v $(pwd)/couchdata:/opt/couchdb/data -e COUCHDB_USER=admin -e COUCHDB_PASSWORD=local_development_password topzcouch"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"prettier": {
+		"trailingComma": "all",
+		"useTabs": true,
+		"printWidth": 100
+	},
+	"dependencies": {
+		"aws-sdk": "^2.636.0",
+		"body-parser": "^1.19.0",
+		"dotenv": "^8.2.0",
+		"fast-proxy": "^1.4.1",
+		"got": "^10.6.0",
+		"jsonwebtoken": "^8.5.1",
+		"nano": "^8.2.2",
+		"restana": "^4.0.8",
+		"rxjs": "^6.5.4"
+	},
+	"devDependencies": {
+		"@babel/core": "^7.8.7",
+		"@babel/plugin-transform-react-jsx": "^7.8.3",
+		"@babel/preset-modules": "^0.1.3",
+		"@babel/preset-typescript": "^7.8.3",
+		"@rollup/plugin-commonjs": "^11.0.2",
+		"@rollup/plugin-html": "^0.1.1",
+		"@rollup/plugin-node-resolve": "^7.1.1",
+		"@rollup/plugin-typescript": "^4.0.0",
+		"@typescript-eslint/eslint-plugin": "^2.23.0",
+		"@typescript-eslint/parser": "^2.23.0",
+		"eslint": "^6.8.0",
+		"eslint-config-prettier": "^6.10.0",
+		"jest": "^25.1.0",
+		"node-sass": "^4.13.1",
+		"pouchdb": "^7.2.1",
+		"pouchdb-find": "^7.2.1",
+		"preact": "^10.3.4",
+		"prettier": "^1.19.1",
+		"prettier-plugin-svelte": "^0.7.0",
+		"rollup": "^2.0.2",
+		"rollup-plugin-babel": "^4.4.0",
+		"rollup-plugin-node-builtins": "^2.1.2",
+		"rollup-plugin-node-globals": "^1.4.0",
+		"rollup-plugin-postcss": "^2.4.1",
+		"rollup-plugin-svelte": "^5.1.1",
+		"rollup-plugin-terser": "^5.3.0",
+		"serve-static": "^1.14.1",
+		"svelte": "^3.19.2",
+		"svelte-material-ui": "^1.0.0-beta.20",
+		"typescript": "^3.8.3"
+	}
+}
