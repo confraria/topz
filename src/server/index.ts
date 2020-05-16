@@ -8,17 +8,30 @@ import {
 	proxyCouch,
 	checkTenant,
 	uploadHandler,
+	role,
+	handleNewUserToken,
+	handleNewUser,
+	getCurrentUser,
+	createTwilioToken,
 } from "./handlers.js";
 
 const server = restana();
 server.use(checkTenant);
 server.all("/api/db/*", verifyAuthentication, proxyCouch);
-server.post(
-	"/api/auth",
-	bodyparser.urlencoded({ extended: true }),
-	authenticate,
-);
+server.post("/api/auth", bodyparser.urlencoded({ extended: true }), authenticate);
 server.post("/api/upload", verifyAuthentication, uploadHandler);
+
+server.post(
+	"/api/user/create-token",
+	verifyAuthentication,
+	role("admin"),
+	bodyparser.json(),
+	handleNewUserToken,
+);
+
+server.post("/api/user", bodyparser.json(), verifyAuthentication, handleNewUser);
+server.get("/api/user", verifyAuthentication, getCurrentUser);
+server.post("/api/video-access", verifyAuthentication, createTwilioToken);
 
 async function main() {
 	await ready;

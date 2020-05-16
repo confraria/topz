@@ -3,5 +3,5 @@
 	"compilerOptions": {
 		"module": "CommonJS"
 	},
-	"include": ["*.ts", "**/*.ts", "index.tsx"]
+	"include": ["*.ts", "**/*.ts", "index.tsx", "../app.ts"]
 }

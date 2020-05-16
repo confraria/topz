@@ -1,8 +1,8 @@
 import got from "got";
 import jwt from "jsonwebtoken";
-import { DB_HOST, DB_PORT, DB_PROTOCOL } from "./config";
+import { DB_HOST, DB_PORT, DB_PROTOCOL, JWT_EXPIRES, JWT_SECRET } from "./config";
 
-async function authenticate(username, password) {
+export async function authenticate(username, password) {
 	return await got
 		.get({
 			url: `${DB_PROTOCOL}://${DB_HOST}:${DB_PORT}/_session`,
@@ -13,17 +13,25 @@ async function authenticate(username, password) {
 		.json();
 }
 
-function sign(payload: object) {
-	return jwt.sign(payload, process.env.JWT_SECRET, {
-		expiresIn: process.env.JWT_EXPIRES,
+export function sign(payload: object, expiresIn: string = JWT_EXPIRES) {
+	return jwt.sign(payload, JWT_SECRET, {
+		expiresIn,
 	});
 }
 
-function verify(token: string) {
-	if (jwt.verify(token, process.env.JWT_SECRET)) {
+export function verify(token: string) {
+	if (jwt.verify(token, JWT_SECRET)) {
 		return jwt.decode(token);
 	}
 	throw new Error("Invalid token");
 }
 
-export { authenticate, sign, verify };
+export function createNewUserToken(roles) {
+	return sign(
+		{
+			createUser: true,
+			roles,
+		},
+		"5m",
+	);
+}

@@ -1,54 +1,45 @@
 <script>
-	import Textfield from "@smui/textfield";
-	import Button from "@smui/button";
-	import { login, token } from "./login";
-	import Snackbar from "@smui/snackbar";
-	import { Label } from "@smui/common";
-	import Card from "@smui/card";
+	import { addNotification, login, token, createUser } from "./global";
+	let user;
+	let password;
+	const newUserToken = getNewUserToken();
 
-	let user = "team1";
-	let password = "bq1o";
-	let errorMessage;
-	let errorSnack;
+	function getNewUserToken() {
+		const {
+			location: { search, pathname },
+		} = window;
+		const token = new URLSearchParams(search).get("t");
+		if (token) {
+			window.history.replaceState({}, "", pathname);
+			return token;
+		}
+		return;
+	}
 
-	async function tryLogin(e) {
-		e.preventDefault();
+	async function submit() {
 		try {
-			token.set(await login(user, password));
+			if (newUserToken) {
+				token.set(await createUser(user, password, newUserToken));
+			} else {
+				token.set(await login(user, password));
+			}
 		} catch (e) {
-			errorMessage = e.message;
-			errorSnack.open();
+			addNotification({
+				text: e.message,
+				type: "error",
+			});
 		}
 	}
 </script>
 
-<Card>
-	<form>
+<form on:submit|preventDefault={submit}>
 
-		<p>
-			<Textfield
-				style="width:100%"
-				bind:value={user}
-				label="User"
-				input$aria-controls="username"
-				input$aria-describedby="username" />
-		</p>
+	<label for="username">Username</label>
+	<input id="username" bind:value={user} />
 
-		<p>
-			<Textfield
-				style="width:100%"
-				bind:value={password}
-				type="password"
-				label="Password"
-				input$aria-controls="Password"
-				input$aria-describedby="password" />
-		</p>
+	<label for="password">Password</label>
+	<input id="password" type="password" bind:value={password} />
 
-		<Snackbar bind:this={errorSnack} labelText={errorMessage}>
-			<Label />
-		</Snackbar>
+	<button>{newUserToken ? 'Create user' : 'Sign in'}</button>
 
-		<Button on:click={tryLogin} style="width:100%" color="primary" variant="raised">Sign in</Button>
-
-	</form>
-</Card>
+</form>
