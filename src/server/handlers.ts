@@ -159,8 +159,8 @@ export async function handleNewUser(req, res) {
 		newUser.roles = user.roles;
 	}
 	let tenantName = tenant.tenant;
-	const roles = new Set(newUser.roles);
-	if (newUser.roles.indexOf("admin") > -1) {
+	const roles = [...new Set(newUser.roles)];
+	if (roles.indexOf("admin") > -1) {
 		tenantName = undefined;
 	}
 	try {
@@ -168,13 +168,14 @@ export async function handleNewUser(req, res) {
 			{
 				name: newUser.name,
 				password: newUser.password || Math.random().toString(36),
-				roles: newUser.roles,
+				roles,
 			},
 			tenantName,
 		);
 	} catch (e) {
 		if (e.error === "conflict") {
 			res.send("User already exists", 400);
+			return;
 		}
 	}
 	req.body = newUser;

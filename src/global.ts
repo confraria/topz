@@ -2,6 +2,7 @@ import PouchDB from "pouchdb";
 import Find from "pouchdb-find";
 import { readable, get, writable, derived } from "svelte/store";
 
+PouchDB.plugin(Find);
 interface Notification {
 	text: string;
 	type: "sucess" | "error" | "warning" | "info";
@@ -53,19 +54,6 @@ export function logout() {
 export const token = writable(localStorage.getItem("token"));
 token.subscribe(t => {
 	t ? localStorage.setItem("token", t) : localStorage.removeItem("token");
-	if (t) {
-		const headers = { authorization: `Bearer ${t}` };
-		const remote = new PouchDB(`${location.origin}/api/db/db`, {
-			headers,
-		});
-		const sync = db.sync(remote, { retry: true });
-		sync
-			.on("complete", () => {
-				console.log("sync complete");
-				db.sync(remote, { retry: true, live: true });
-			})
-			.on("error", e => console.error(e));
-	}
 });
 
 export const twilioToken = derived(token, ($token, set) => {
@@ -95,4 +83,20 @@ export const user = derived(token, ($token, set) => {
 		set(null);
 	}
 	return () => 0;
+});
+
+user.subscribe(u => {
+	if (u) {
+		const headers = { authorization: `Bearer ${t}` };
+		const remote = new PouchDB(`${location.origin}/api/db/db`, {
+			headers,
+		});
+		const sync = db.sync(remote, { retry: true });
+		sync
+			.on("complete", () => {
+				console.log("sync complete");
+				db.sync(remote, { retry: true, live: true });
+			})
+			.on("error", e => console.error(e));
+	}
 });
