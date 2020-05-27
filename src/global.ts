@@ -9,6 +9,11 @@ interface Notification {
 }
 
 export const db = new PouchDB("local");
+db.createIndex({
+  index: {
+    fields: ['type']
+  }
+});
 
 export const notifications = writable([]);
 
@@ -87,7 +92,7 @@ export const user = derived(token, ($token, set) => {
 
 user.subscribe(u => {
 	if (u) {
-		const headers = { authorization: `Bearer ${t}` };
+		const headers = { authorization: `Bearer ${get(token)}` };
 		const remote = new PouchDB(`${location.origin}/api/db/db`, {
 			headers,
 		});

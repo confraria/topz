@@ -21,6 +21,8 @@ server.all("/api/db/*", verifyAuthentication, proxyCouch);
 server.post("/api/auth", bodyparser.urlencoded({ extended: true }), authenticate);
 server.post("/api/upload", verifyAuthentication, uploadHandler);
 
+
+
 server.post(
 	"/api/user/create-token",
 	verifyAuthentication,
