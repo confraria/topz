@@ -17,7 +17,7 @@
 	},
 	"dependencies": {
 		"-": "0.0.1",
-		"aws-sdk": "^2.636.0",
+		"aws-sdk": "^2.814.0",
 		"body-parser": "^1.19.0",
 		"dotenv": "^8.2.0",
 		"fast-proxy": "^1.4.1",
