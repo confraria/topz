@@ -21,7 +21,7 @@
 		"body-parser": "^1.19.0",
 		"dotenv": "^8.2.0",
 		"fast-proxy": "^1.4.1",
-		"got": "^10.6.0",
+		"got": "^11.8.5",
 		"jsonwebtoken": "^8.5.1",
 		"nano": "^8.2.2",
 		"restana": "^4.0.8",
